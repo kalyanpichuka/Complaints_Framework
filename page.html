@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Complaints Framework</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+<body>
+
+  <div class="card">
+    <div class="card-body" style="padding:1px;"><h2 align='center'>COMPLAINTS FRAMEWORK</h2></div>
+  </div>
+
+ <br>
+
+<div class="container">
+  <div class="row justify-content-center align-items-center">
+  
+  <div id="citywise">
+ 
+    <div class="form-group row">
+      <div class="col-xs-3">
+      <label for="selcity">City:</label>
+      <select class="form-control" id="selcity" name="selcitylist">
+        <option value="Miami">Miami</option>
+        <option value="Los Angeles">Los Angeles</option>
+        <option value="Atlanta">Atlanta</option>
+        <option value="Brooklyn">Brooklyn</option>
+      </select>
+      <br>
+      <label for="selchan">Channels:</label>
+      <select class="form-control" id="selchan" name="selchanlist">
+        <option value="Phone">Phone</option>
+        <option value="Referral">Referral</option>
+        <option value="Web">Web</option>
+        <option value="Postal mail">Postal mail</option>
+      </select>
+      <br>
+      <label for="selres">Company Response to Customer:</label>
+      <select class="form-control" id="selres" name="selreslist">
+        <option value = "Closed without relief">Closed without relief</option>
+        <option value = "Closed with explanation">Closed with explanation</option>
+        <option value = "Closed with non-monetary relief">Closed with non-monetary relief</option>
+        <option value = "Closed with monetary relief">Closed with monetary relief</option>
+      </select>
+      <br>
+    </div>
+    </div>
+    <button type="submit" class="btn btn-primary" id="submitcity">Submit</button>  
+  </div>
+  <div id="resultdatatable" style="display:none;">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>First Max</th>
+        <th>Second Max</th>
+        <th>Third Max</th>
+      </tr>
+    </thead>
+    <tbody id="tBody">
+      
+    </tbody>
+  </table>
+	<button type="submit" class="btn btn-primary" onclick="myFunction()">Back to Submission</button>
+    </div>
+
+</div>
+</div>
+
+
+</body>
+
+<script>
+function myFunction() {
+    var x = document.getElementById("citywise");
+    var y = document.getElementById("resultdatatable");
+    $("#tBody tr").remove();
+    if (x.style.display === "none") {
+        x.style.display = "block";
+	y.style.display = "none";
+    } else {
+        x.style.display = "none";
+	y.style.display = "block";
+    }
+    
+}
+</script>
+
+<script>
+$(function() {
+    $('#submitcity').click(function() {
+	myFunction();
+
+	var selectedCity = $("#selcity option:selected").val();
+	var selectedSubmitted = $("#selchan option:selected").val();
+	var selectedCompanyRes = $("#selres option:selected").val();
+	
+	url_str = 'http://localhost:5000/maxProb?city=' + selectedCity + '&sub_via='+ selectedSubmitted +'&comp_res='+ selectedCompanyRes;
+
+        $.ajax({
+            url: url_str,
+            method: 'GET',
+            success: function(resp) {
+                var trHTML = '';
+                       for (i = 0; i < resp.name.length; i++) {
+                                trHTML +=
+                                    '<tr><td>'
+                                    + resp.name[i]['firstmax']
+                                    + '</td><td>'
+                                    + resp.name[i]['secondmax']
+                                    + '</td><td>'
+				    + resp.name[i]['thirdmax']
+				    + '</td></tr>'	;
+                                    
+                            }
+                        $('#tBody').append(trHTML);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    });
+});
+</script>
+
+
+</html> 
+
