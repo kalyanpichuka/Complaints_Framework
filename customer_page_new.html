@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Complaints Framework</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <style>
+	a, a:hover, a:active, a:visited { color: black; }
+  </style>
+
+
+</head>
+<body>
+
+  <div class="card">
+    <div class="card-body" style="padding:1px;background-color:#b30000;color:white;"><h2 align='center'>COMPLAINTS FRAMEWORK</h2></div>
+  </div>
+
+ <br>
+
+<div class="container">
+  <div class="row justify-content-center align-items-center">
+  
+  <div id="customerWise">
+    <div style="padding-bottom:1em;"> 
+		<button type="submit" class="btn btn-primary"><a href="file:///home/ignitelab/complaints_framework_lab_latest/home_page.html">Back to Home Page</a></button>
+	</div>
+    <div class="form-group row">
+      <div >
+      <label for="selstate">State:</label>
+      <select class="form-control" id="selstate" name="selstatelist">
+        <option value="FL">CA</option>
+        <option value="CA">FL</option>
+        <option value="GA">IL</option>
+        <option value="MD">MD</option>
+      </select>
+      <br>
+      <label for="selcity">City:</label>
+      <select class="form-control" id="selcity" name="selcitylist">
+        <option value="Miami">Miami</option>
+        <option value="Los Angeles">Los Angeles</option>
+        <option value="Atlanta">Atlanta</option>
+        <option value="Brooklyn">Brooklyn</option>
+      </select>
+      <br>
+      
+      <br>
+    </div>
+    </div>
+    <button type="submit" class="btn btn-primary" id="submitcity">Search</button>  
+  </div>
+</div>
+<br>
+<div id="customerTable1" class="row form-group col-xs-3" style="display:none;">
+	<table class="table table-bordered">
+	    <thead>
+	      <tr>
+		<th>Customer ID</th>
+	      </tr>
+	    </thead>
+	 <tbody id="custList">
+	</tbody>
+	  </table>
+</div>
+
+<div id="custDetailsTab" style="display:none;">
+<div  class="form-group row" >
+	
+      <div class="col-xs-3">
+      <label for="selcustomer">Customer:</label>
+      <input type="text" class="form-control" id="custId" readonly></input>
+      <br>
+            
+      <label for="selchan">Channels:</label>
+      <select class="form-control" id="selchan" name="selchanlist">
+        <option value="Phone">Phone</option>
+        <option value="Referral">Referral</option>
+        <option value="Web">Web</option>
+        <option value="Postal mail">Postal mail</option>
+      </select>
+      <br>
+      <label for="selres">Company Response to Customer:</label>
+      <select class="form-control" id="selres" name="selreslist">
+        <option value = "Closed without relief">Closed without relief</option>
+        <option value = "Closed with explanation">Closed with explanation</option>
+        <option value = "Closed with non-monetary relief">Closed with non-monetary relief</option>
+        <option value = "Closed with monetary relief">Closed with monetary relief</option>
+      </select>
+      <br>
+    </div>
+    </div>
+	<div style="padding-right:5px"> <button type="submit" class="btn btn-primary" id="submitcust">Submit</button> </div>
+	
+     
+  </div>
+  <div id="resultdatatable" style="display:none;">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Issues</th>
+        <th>Probabilities</th>
+      </tr>
+    </thead>
+    <tbody id="tBody">
+      
+    </tbody>
+  </table>
+	<button type="submit" class="btn btn-primary" onclick="backToSubmission()">Back to Submission</button>
+	
+    </div>
+
+   
+	
+
+
+</div>
+</div>
+
+
+
+
+
+</body>
+
+<script>
+function enableCustomerLinks(){
+$(".customerLink").click(function() {
+var custId=$(this).text();
+var x= document.getElementById("custDetailsTab");
+var y= document.getElementById("customerTable1");
+if (x.style.display === "none") {
+        x.style.display = "block";
+	y.style.display = "none";
+    } else {
+        x.style.display = "none";
+	y.style.display = "block";
+    }
+document.getElementById("custId").value=custId;
+});
+}
+
+function displayResults() {
+    var x = document.getElementById("custDetailsTab");
+    var y = document.getElementById("resultdatatable");
+    $("#tBody tr").remove();
+    if (x.style.display === "none") {
+        x.style.display = "block";
+	y.style.display = "none";
+    } else {
+        x.style.display = "none";
+	y.style.display = "block";
+    }
+    
+}
+
+function backToSubmission(){
+document.getElementById("customerTable1").style.display="none";
+document.getElementById("resultdatatable").style.display="none";
+document.getElementById("custDetailsTab").style.display="none";
+document.getElementById("customerWise").style.display="block";
+}
+
+
+function myFunction() {
+    var x = document.getElementById("customerTable1");
+    var y = document.getElementById("customerWise");
+    var city=document.getElementById("selcity").value;
+    //$("#tBody tr").remove();
+    if (x.style.display === "none") {
+        x.style.display = "block";
+	y.style.display = "none";
+    } else {
+        x.style.display = "none";
+	y.style.display = "block";
+    }
+
+if(city=="Miami"){
+	$('#custList').empty();
+	$('#custList').append("<tr><td class='customerLink'><a href='#'>Customer_Mia_513_21</a></td></tr>");
+	$('#custList').append("<tr><td class='customerLink'><a href='#'>Customer_Mia_513_22</a></td></tr>");
+	$('#custList').append("<tr><td class='customerLink'><a href='#'>Customer_Mia_513_23</a></td></tr>");
+	$('#custList').append("<tr><td class='customerLink'><a href='#'>Customer_Mia_513_24</a></td></tr>");
+	$('#custList').append("<tr><td class='customerLink'><a href='#'>Customer_Mia_513_25</a></td></tr>");
+
+}
+else {
+	$('#custList').empty();
+	$('#custList').append("<tr><td class='customerLink'><a href='#'>Customer_Los_296_8</a></td></tr>");
+	$('#custList').append("<tr><td class='customerLink'><a href='#'>Customer_Los_296_9</a></td></tr>");
+	$('#custList').append("<tr><td class='customerLink'><a href='#'>Customer_Los_296_10</a></td></tr>");
+	$('#custList').append("<tr><td class='customerLink'><a href='#'>Customer_Los_296_27</a></td></tr>");
+	$('#custList').append("<tr><td class='customerLink'><a href='#'>Customer_Los_296_63</a></td></tr>");
+	
+}
+    enableCustomerLinks();
+}
+$(function() {
+    $('#submitcust').click(function() {
+	displayResults();
+	
+	var selectedCustomer = $("#custId").val().trim();
+	var selectedSubmitted = $("#selchan option:selected").val();
+	var selectedCompanyRes = $("#selres option:selected").val();
+	
+	url_str = 'http://localhost:5000/maxProbCustomerLatest?sub_via='+ selectedSubmitted +'&comp_res='+ selectedCompanyRes+'&cust_id='+selectedCustomer;
+
+
+        $.ajax({
+            url: url_str,
+            method: 'GET',
+            success: function(resp) {
+                var trHTML = '';
+                       for (i = 0; i < resp.keys.length; i++) {
+                                trHTML +=
+                                    '<tr><td>'
+                                    + resp.keys[i]['firstmax']
+                                    + '</td><td>'
+                                    + parseFloat(resp.values[i]['firstmax']).toFixed(7) * 100 +'%'
+                                    + '</td></tr>'
+				    + '<tr><td>'
+				    + resp.keys[i]['secondmax']
+				    + '</td><td>'
+			     	    + parseFloat(resp.values[i]['secondmax']).toFixed(7) * 100 +'%'
+				    + '</td></tr>'
+				    + '<tr><td>'
+				    + resp.keys[i]['thirdmax']
+			   	    + '</td><td>'
+				    + parseFloat(resp.values[i]['thirdmax']).toFixed(7) * 100 +'%'
+				    + '</td></tr>' 	;
+                                    
+                            }
+                        $('#tBody').append(trHTML);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    });
+});
+
+</script>
+
+<script>
+$(function() {
+    $('#submitcity').click(function() {
+		myFunction();
+	});
+});
+</script>
+
+
+</html> 
+
